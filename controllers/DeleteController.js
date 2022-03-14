@@ -14,18 +14,6 @@ class DeleteController{
 
             if (del.rowCount>0) {
 
-                res.status(400).json({
-                    "payload": [
-                        {
-                            "Message": "Employee Not Found"
-                        }
-                    ],
-                    "errors": [],
-                    "success": false
-                });
-
-            } else {
-
                 res.status(200).json({
                     "payload": [
                         {
@@ -34,6 +22,20 @@ class DeleteController{
                     ],
                     "errors": [],
                     "success": true
+                });
+
+                
+
+            } else {
+
+                res.status(400).json({
+                    "payload": [
+                        {
+                            "Message": "Employee Not Found"
+                        }
+                    ],
+                    "errors": [],
+                    "success": false
                 });
             }
 
