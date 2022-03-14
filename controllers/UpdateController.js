@@ -1,23 +1,27 @@
 const pool = require("../db/db");
 
-class DeleteController {
-    static async delete(req, res) {
+class UpdateController {
+    static async update(req, res) {
 
         try {
 
-            const query = `DELETE FROM EMPLOYEES WHERE emp_email='${req.body.emp_email}'`
+            const emp_email = req.params.emp_email
 
-            const del = await pool.query(query);
+            const { empid, emp_name, emp_mobile, emp_national_id, password } = req.body
 
-            console.log(query)
+            const query = `update employees set empid='${empid}',emp_name='${emp_name}',
+                                emp_mobile='${emp_mobile}',emp_national_id=${emp_national_id},
+                                password='${password}' 
+                                WHERE emp_email='${emp_email}'`
 
+            const put = await pool.query(query)
 
-            if (del.rowCount > 0) {
+            if (put.rowCount > 0) {
 
                 res.status(200).json({
                     "payload": [
                         {
-                            "Message": "Employee deleted"
+                            "Message": "Employee Updated"
                         }
                     ],
                     "errors": [],
@@ -43,8 +47,7 @@ class DeleteController {
             console.log(error)
         }
 
-
     }
 }
 
-module.exports = DeleteController;
+module.exports = UpdateController;
