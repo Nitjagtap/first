@@ -28,7 +28,7 @@ class DeleteController {
 
             } else {
 
-                res.status(400).json({
+                res.status(404).json({
                     "payload": [
                         {
                             "Message": "Employee Not Found"
