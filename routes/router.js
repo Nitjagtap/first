@@ -9,7 +9,7 @@ router.post("/register", RegisterController.register);
 
 router.post("/login", LoginController.login);
 
-router.put("/update/:emp_email", UpdateController.update)
+router.put("/update", UpdateController.update)
 
 router.delete("/delete", DeleteController.delete)
 

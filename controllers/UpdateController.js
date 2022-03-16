@@ -5,7 +5,7 @@ class UpdateController {
 
         try {
 
-            let emp_email = req.params.emp_email
+            let emp_email = req.body.emp_email
 
             let { empid, emp_name, emp_mobile, emp_national_id, password } = req.body
 
