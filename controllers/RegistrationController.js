@@ -8,9 +8,9 @@ class RegisterController {
         try {
             let { empid, emp_name, emp_email, emp_mobile, emp_national_id, password } = req.body;
 
-            if(password.length > 8 || password !== null) {
+            if(password.length > 8 && password !=null) {
 
-                const query1 =`SELECT * FROM employees where emp_email='${emp_email}'`
+                const query1 =`SELECT * FROM employees WHERE emp_email='${emp_email}'`
                 const find = await pool.query(query1)
                 console.log(find)
 
@@ -26,7 +26,7 @@ class RegisterController {
                     })
                 } else {
                     const query = `INSERT INTO employees VALUES ('${empid}','${emp_name}','${emp_email}','${emp_mobile}','${emp_national_id}','${password}')`
-                    const find1=   await pool.query(query)
+                    const find1 = await pool.query(query)
             console.log(find1)       
 
                         res.status(200).json({
