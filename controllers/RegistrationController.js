@@ -1,4 +1,5 @@
 const { send } = require("express/lib/response");
+const logger = require('../Logger/logger')
 const pool = require("../db/db");
 
 
@@ -12,9 +13,11 @@ class RegisterController {
 
                 const query1 =`SELECT * FROM employees WHERE emp_email='${emp_email}'`
                 const find = await pool.query(query1)
-                console.log(find)
-
+                
                 if (find.rowCount>0) {
+
+                    logger.employeelogger.log('error','email_id already registered plz try with different email_id')
+
                     res.status(409).json({
                         "payload": [
                             {
@@ -24,10 +27,13 @@ class RegisterController {
                         "errors": [], 
                         "success": false
                     })
+
+
                 } else {
                     const query = `INSERT INTO employees VALUES ('${empid}','${emp_name}','${emp_email}','${emp_mobile}','${emp_national_id}','${password}')`
-                    const find1 = await pool.query(query)
-            console.log(find1)       
+                     await pool.query(query)
+
+                     logger.employeelogger.log('info','Employee Added Sucssesful')
 
                         res.status(200).json({
                             "payload": [
@@ -40,10 +46,10 @@ class RegisterController {
 
                         })
                     
-                    console.log("Employee Added")
+
                 }
             } else {
-                console.log("password is incorrect")
+                logger.employeelogger.log('error','Password Invalid')
                 res.status(403).json({
                     "payload": [
                         {
@@ -58,6 +64,7 @@ class RegisterController {
                 
         }
         catch (e) {
+            logger.employeelogger.log('error','Error Occurred While Register')
 
 
         }

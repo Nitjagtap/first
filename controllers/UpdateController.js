@@ -1,4 +1,6 @@
 const pool = require("../db/db");
+const logger = require('../Logger/logger')
+
 
 class UpdateController {
     static async update(req, res) {
@@ -10,10 +12,21 @@ class UpdateController {
             let { empid, emp_name, emp_mobile, emp_national_id, password } = req.body
 
             const find = await pool.query(`select * from employees where emp_email='${emp_email}'`)
-            console.log(find)
+            
+            logger.employeelogger.log('error','Employee does not exist')
 
             if (find.rowCount == 0) {
-                throw error
+                res.status(404).json({
+                    "payload": [
+                        {
+                            "Message": "Employee Not Found"
+                        }
+                    ],
+                    "errors": [],
+                    "success": false
+                });
+
+
             } else {
 
                 if (empid == undefined || empid == "" || empid == null) {
@@ -36,11 +49,9 @@ class UpdateController {
                                 emp_national_id='${emp_national_id}',password='${password}' 
                                   WHERE emp_email='${emp_email}'`
 
-                const put = await pool.query(query1)
-                console.log(query1)
-                console.log(put)
+                await pool.query(query1)
 
-                if (put.rowCount > 0) {
+                logger.employeelogger.log('info','Employee Updated')
 
                     res.status(200).json({
                         "payload": [
@@ -53,23 +64,12 @@ class UpdateController {
                     });
 
 
-
-                } else {
-
-                    res.status(404).json({
-                        "payload": [
-                            {
-                                "Message": "Employee Not Found"
-                            }
-                        ],
-                        "errors": [],
-                        "success": false
-                    });
-                }
             }
 
         } catch (error) {
             console.log(error)
+            logger.employeelogger.log('error','Employee does not exist')
+
         }
 
     }

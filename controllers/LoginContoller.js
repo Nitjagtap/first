@@ -1,4 +1,6 @@
 const { status } = require("express/lib/response");
+const jwtToken = require('jsonwebtoken');
+const logger = require('../Logger/logger')
 const pool = require("../db/db");
 
 class LoginController {
@@ -13,6 +15,8 @@ class LoginController {
 
             if (find.rowCount == 0) {
 
+                logger.employeelogger.log('error','Employee does not exist try with another email id')
+
                 res.status(409).json({
                     "payload": [
                         {
@@ -26,21 +30,33 @@ class LoginController {
             }
             else {
                 const query = `SELECT * FROM employees where emp_email='${emp_email}' and password='${password}'`
-                const find1 = await pool.query(query);
+                
+                await pool.query(query);
+                const employee = {emp_email,password};
+
+                logger.employeelogger.log('info','login Sucssesful')
+
+                // const token = await jwtToken.sign({
+                //     emp_email
+                // },"wowoni",{
+                //    // expiresIn : 36000
+                // })
+                                 
 
                 res.status(200).json({
                     "payload": [
                         {
-                            "Message": "login Sucssesful"
+                            "Message": "login Sucssesful",
                         }
                     ],
                     "errors": [],
-                    "success": false
+                    "success": true
                 });
-            }
+        }
 
         } catch (error) {
             console.log(error)
+            logger.employeelogger.log('error','error Occurred while login')
         }
 
     }
