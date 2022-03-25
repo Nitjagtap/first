@@ -1,5 +1,5 @@
 const { send } = require("express/lib/response");
-const logger = require('../Logger/logger')
+const logger = require('../Helpers/logger')
 const pool = require("../db/db");
 
 
@@ -49,7 +49,9 @@ class RegisterController {
 
                 }
             } else {
+
                 logger.employeelogger.log('error','Password Invalid')
+                
                 res.status(403).json({
                     "payload": [
                         {

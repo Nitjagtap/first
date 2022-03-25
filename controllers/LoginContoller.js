@@ -1,11 +1,13 @@
 const { status } = require("express/lib/response");
 const jwtToken = require('jsonwebtoken');
-const logger = require('../Logger/logger')
+const logger = require('../Helpers/logger')
 const pool = require("../db/db");
+const EmployeeNotFound = require("../Helpers/error");
+
 
 class LoginController {
 
-    static async login(req, res) {
+    static async login(req, res,next) {
 
         try {
 
@@ -17,15 +19,17 @@ class LoginController {
 
                 logger.employeelogger.log('error','Employee does not exist try with another email id')
 
-                res.status(409).json({
-                    "payload": [
-                        {
-                            "Message": "Employee does not exist try with another email id"
-                        }
-                    ],
-                    "errors": [],
-                    "success": false
-                })
+                throw  new EmployeeNotFound("mployee does not exist try with another email id",409);
+
+                // res.status(409).json({
+                //     "payload": [
+                //         {
+                //             "Message": "Employee does not exist try with another email id"
+                //         }
+                //     ],
+                //     "errors": [],
+                //     "success": false
+                // })
 
             }
             else {
@@ -34,14 +38,7 @@ class LoginController {
                 await pool.query(query);
                 const employee = {emp_email,password};
 
-                logger.employeelogger.log('info','login Sucssesful')
-
-                // const token = await jwtToken.sign({
-                //     emp_email
-                // },"wowoni",{
-                //    // expiresIn : 36000
-                // })
-                                 
+                logger.employeelogger.log('info','login Sucssesful')         
 
                 res.status(200).json({
                     "payload": [
@@ -55,7 +52,7 @@ class LoginController {
         }
 
         } catch (error) {
-            console.log(error)
+            next(error)
             logger.employeelogger.log('error','error Occurred while login')
         }
 

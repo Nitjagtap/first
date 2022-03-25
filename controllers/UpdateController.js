@@ -1,5 +1,5 @@
 const pool = require("../db/db");
-const logger = require('../Logger/logger')
+const logger = require('../Helpers/logger')
 
 
 class UpdateController {
