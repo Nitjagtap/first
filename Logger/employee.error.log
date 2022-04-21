@@ -32,3 +32,11 @@
 {"level":"error","message":"Employee does not exist try with another email id","timestamp":"2022-04-07T06:00:03.293Z"}
 {"level":"error","message":"error Occurred while login","timestamp":"2022-04-07T06:00:03.294Z"}
 {"level":"error","message":"Employee does not exist try with another email id","timestamp":"2022-04-07T06:02:18.859Z"}
+{"level":"error","message":"Password Invalid","timestamp":"2022-04-21T11:14:06.091Z"}
+{"level":"error","message":"Password Invalid","timestamp":"2022-04-21T11:14:15.735Z"}
+{"level":"error","message":"Error Occurred While Register","timestamp":"2022-04-21T11:15:58.159Z"}
+{"level":"error","message":"Error Occurred While Register","timestamp":"2022-04-21T11:16:58.803Z"}
+{"level":"error","message":"Error Occurred While Register","timestamp":"2022-04-21T11:18:42.600Z"}
+{"level":"error","message":"email_id already registered plz try with different email_id","timestamp":"2022-04-21T11:34:53.868Z"}
+{"level":"error","message":"email_id already registered plz try with different email_id","timestamp":"2022-04-21T11:48:05.217Z"}
+{"level":"error","message":"Error Occurred While Register","timestamp":"2022-04-21T11:48:52.950Z"}

@@ -28,7 +28,7 @@ class RegisterController {
                         "success": false
                     })
 
-
+ 
                 } else {
                     const query = `INSERT INTO employees VALUES ('${empid}','${emp_name}','${emp_email}','${emp_mobile}','${emp_national_id}','${password}')`
                      await pool.query(query)
@@ -43,7 +43,7 @@ class RegisterController {
                             ],
                             "errors": [],
                             "success": true
-
+ 
                         })
                     
 
@@ -66,6 +66,7 @@ class RegisterController {
                 
         }
         catch (e) {
+            console.log(e)
             logger.employeelogger.log('error','Error Occurred While Register')
 
 

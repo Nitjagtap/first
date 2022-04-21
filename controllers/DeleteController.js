@@ -3,7 +3,7 @@ const logger = require('../Helpers/logger');
 const jwt = require('jsonwebtoken');
 
 
-class DeleteController {
+class DeleteController { 
     static async delete(req, res) {
 
         try {
