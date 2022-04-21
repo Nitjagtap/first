@@ -3,18 +3,24 @@ const pool = require('./db/db');
 const EmployeeNotFound = require('./Helpers/error');
 const routes = require('./routes/index');
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
+const dotenv = require('dotenv');
+
+  
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
+
+// Set up Global configuration access
+dotenv.config();
 
 app.use("/", routes);
 app.use("*",(req , res, next)=>{
 	const err = new EmployeeNotFound(`Requested URL '${req.path}' Not Found!`,404);
 	
-	next(err)
+	next(err) 
 })
 
 app.use((err,req ,res ,next)=>{

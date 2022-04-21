@@ -1,5 +1,6 @@
 const pool = require("../db/db");
-const logger = require('../Helpers/logger')
+const logger = require('../Helpers/logger');
+const jwt = require('jsonwebtoken');
 
 
 class DeleteController {
@@ -27,34 +28,40 @@ class DeleteController {
             }
             else {
 
-                const query = `DELETE FROM EMPLOYEES WHERE emp_email='${emp_email}'`
+                let tokenHeaderKey = process.env.TOKEN_HEADER_KEY;
+                let jwtSecretKey = process.env.JWT_SECRET_KEY;
 
-                await pool.query(query);
+                    const token = req.header(tokenHeaderKey);
 
-                logger.employeelogger.log('info', 'Employee deleted')
+                    const verified = jwt.verify(token, jwtSecretKey);
+                    if (verified) {
+                        const query = `DELETE FROM EMPLOYEES WHERE emp_email='${emp_email}'`
 
-                res.status(200).json({
-                    "payload": [
-                        {
-                            "Message": "Employee deleted"
-                        }
-                    ],
-                    "errors": [],
-                    "success": true
-                });
+                        await pool.query(query);
+    
+                        logger.employeelogger.log('info', 'Employee deleted')
+    
+                        res.status(200).json({
+                            "payload": [
+                                {
+                                    "Message": "Employee deleted"
+                                }
+                            ],
+                            "errors": [],
+                            "success": true
+                        });
+    
+                    }             
 
+                }
 
+        } catch (error) {
+                console.log(error)
+                logger.employeelogger.log('error', 'Error Occurred')
 
             }
 
-        } catch (error) {
-            console.log(error)
-            logger.employeelogger.log('error', 'Error Occurred')
-
         }
-
-
-    }
 }
 
 module.exports = DeleteController;

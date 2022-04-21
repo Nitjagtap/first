@@ -2,7 +2,7 @@ const { status } = require("express/lib/response");
 const jwtToken = require('jsonwebtoken');
 const logger = require('../Helpers/logger')
 const pool = require("../db/db");
-const EmployeeNotFound = require("../Helpers/error");
+//const {EmployeeNotFound }= require("../Helpers/error");
 
 
 class LoginController {
@@ -19,7 +19,7 @@ class LoginController {
 
                 logger.employeelogger.log('error','Employee does not exist try with another email id')
 
-                throw  new EmployeeNotFound("mployee does not exist try with another email id",409);
+               // throw  new EmployeeNotFound("mployee does not exist try with another email id",409);
 
                 // res.status(409).json({
                 //     "payload": [
@@ -33,10 +33,15 @@ class LoginController {
 
             }
             else {
+                
                 const query = `SELECT * FROM employees where emp_email='${emp_email}' and password='${password}'`
                 
                 await pool.query(query);
-                const employee = {emp_email,password};
+                
+                let jwtSecretKey = process.env.JWT_SECRET_KEY;
+                const data = {
+                            emp_email,password
+                        };
 
                 logger.employeelogger.log('info','login Sucssesful')         
 
@@ -44,6 +49,7 @@ class LoginController {
                     "payload": [
                         {
                             "Message": "login Sucssesful",
+                            "token" : jwtToken.sign(data,jwtSecretKey)
                         }
                     ],
                     "errors": [],
